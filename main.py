@@ -6,7 +6,7 @@ from telethon import events, types
 api_id = 27326624
 api_hash = '261863acefacdc9d7ab5426cecd4631b'
 
-client = TelegramClient('VY_BIG_Client', api_id, api_hash,
+client = TelegramClient('/root/read_messages/read_archived_message/VY_BIG_Client.session', api_id, api_hash,
                         system_version='4.16.30-vxCUSTOM',
                         )
 client.start(phone='+79619062680')
