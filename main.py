@@ -14,6 +14,7 @@ client.start(phone='+79619062680')
 print('Start to read message from Archive')
 
 
+@client.on(events.ChatAction())
 @client.on(events.NewMessage(incoming=True))
 async def mark_archived_dialogs_as_read(event):
     async for dialog in client.iter_dialogs(archived=True):
