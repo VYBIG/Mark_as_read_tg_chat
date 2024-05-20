@@ -40,14 +40,10 @@ async def mark_archived_dialogs_as_read(event):
                                                    clear_reactions=True,
                                                    )
             elif isinstance(event.peer_id, types.PeerChannel):
-                entity = await client.get_entity(event.message.peer_id.channel_id)
-                if entity.megagroup:
-                    pass
-                else:
-                    await client.send_read_acknowledge(entity=await client.get_entity(dialog.name),
-                                                       max_id=event.message.id,
-                                                       clear_mentions=True,
-                                                       clear_reactions=True,
-                                                       )
+                await client.send_read_acknowledge(entity=await client.get_entity(dialog.name),
+                                                   max_id=event.message.id,
+                                                   clear_mentions=True,
+                                                   clear_reactions=True,
+                                                   )
 
 client.run_until_disconnected()
