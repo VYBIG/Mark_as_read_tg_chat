@@ -40,29 +40,14 @@ async def mark_archived_dialogs_as_read(event):
                                                    clear_reactions=True,
                                                    )
             elif isinstance(event.peer_id, types.PeerChannel):
-                await client.send_read_acknowledge(entity=await client.get_entity(dialog.name),
-                                                   max_id=event.message.id,
-                                                   clear_mentions=True,
-                                                   clear_reactions=True,
-                                                   )
-
-
-@client.on(events.NewMessage(incoming=True))
-async def mark_archived_super_chat_as_read(event):
-    async for dialog in client.iter_dialogs(archived=True):
-        if event.message.message == dialog.message.message:
-            if isinstance(event.peer_id, types.PeerChat):
-                await client.send_read_acknowledge(entity=await client.get_entity(dialog.name),
-                                                   max_id=event.message.id,
-                                                   clear_mentions=True,
-                                                   clear_reactions=True,
-                                                   )
-            elif isinstance(event.peer_id, types.PeerChannel):
-                await client.send_read_acknowledge(entity=await client.get_entity(dialog.name),
-                                                   max_id=event.message.id,
-                                                   clear_mentions=True,
-                                                   clear_reactions=True,
-                                                   )
+                entity = await client.get_entity(event.message.peer_id.channel_id)
+                if entity.megagroup:
+                    pass
+                else:
+                    await client.send_read_acknowledge(entity=await client.get_entity(dialog.name),
+                                                       max_id=event.message.id,
+                                                       clear_mentions=True,
+                                                       clear_reactions=True,
+                                                       )
 
 client.run_until_disconnected()
-
