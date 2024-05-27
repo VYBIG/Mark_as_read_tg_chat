@@ -18,11 +18,18 @@ print('Start to read message from Archive')
 async def mark_archived_dialogs_as_read(event):
     async for dialog in client.iter_dialogs(archived=True):
         if event.message.message == dialog.message.message:
-            await client.send_read_acknowledge(entity=await client.get_entity(dialog.name),
-                                               max_id=event.message.id,
-                                               clear_mentions=True,
-                                               clear_reactions=True,
-                                               )
+            if isinstance(event.peer_id, types.PeerChat):
+                await client.send_read_acknowledge(entity=event.message.peer_id.chat_id,
+                                                   max_id=event.message.id,
+                                                   clear_mentions=True,
+                                                   clear_reactions=True,
+                                                   )
+            elif isinstance(event.peer_id, types.PeerChannel):
+                await client.send_read_acknowledge(entity=event.message.peer_id.channel_id,
+                                                   max_id=event.message.id,
+                                                   clear_mentions=True,
+                                                   clear_reactions=True,
+                                                   )
 
 
 
