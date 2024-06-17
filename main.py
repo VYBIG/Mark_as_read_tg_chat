@@ -18,31 +18,17 @@ print('Start to read message from Archive')
 async def mark_archived_dialogs_as_read(event):
     async for dialog in client.iter_dialogs(archived=True):
         if event.message.message == dialog.message.message:
-            if isinstance(event.peer_id, types.PeerChat):
-                await client.send_read_acknowledge(entity=event.message.peer_id.chat_id,
-                                                   max_id=event.message.id,
-                                                   clear_mentions=True,
-                                                   clear_reactions=True,
-                                                   )
-            elif isinstance(event.peer_id, types.PeerChannel):
-                await client.send_read_acknowledge(entity=event.message.peer_id.channel_id,
-                                                   max_id=event.message.id,
-                                                   clear_mentions=True,
-                                                   clear_reactions=True,
-                                                   )
-
+            await client.send_read_acknowledge(entity=await client.get_input_entity(dialog),
+                                               max_id=event.message.id,
+                                               clear_mentions=True,
+                                               clear_reactions=True,
+                                               )
 
 
 @client.on(events.ChatAction())
 async def mark_chat_action_as_read(event):
-    if isinstance(event.action_message.peer_id, types.PeerChat):
-        await client.send_read_acknowledge(entity=event.action_message.peer_id.chat_id,
-                                           max_id=event.action_message.id,
-                                           clear_mentions=True,
-                                           clear_reactions=True,
-                                           )
-    elif isinstance(event.action_message.peer_id, types.PeerChannel):
-        await client.send_read_acknowledge(entity=event.action_message.peer_id.channel_id,
+    async for dialog in client.iter_dialogs(archived=True):
+        await client.send_read_acknowledge(entity=await client.get_input_entity(dialog),
                                            max_id=event.action_message.id,
                                            clear_mentions=True,
                                            clear_reactions=True,
