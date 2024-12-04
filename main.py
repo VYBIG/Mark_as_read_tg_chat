@@ -35,7 +35,4 @@ async def mark_chat_action_as_read(event):
                                            )
 
 
-
-
-
 client.run_until_disconnected()
