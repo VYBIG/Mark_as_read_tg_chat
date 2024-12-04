@@ -1,14 +1,14 @@
 from telethon.sync import TelegramClient
 from telethon import events, types
 from telethon.tl.functions.messages import ReadHistoryRequest
+from config import *
+api_id = int(API_ID)
+api_hash = API_HASH
 
-api_id = 27326624
-api_hash = '261863acefacdc9d7ab5426cecd4631b'
-
-client = TelegramClient('VY_BIG_Client.session', api_id, api_hash,
+client = TelegramClient(SESSION_DIR, api_id, api_hash,
                         system_version='4.16.30-vxCUSTOM',
                         )
-client.start(phone='+79619062680')
+client.start(phone=PHONE)
 
 print('Start to read message from Archive')
 
